@@ -127,5 +127,8 @@
       }
     }
   },
-  "defaultProject": "ang-three-js"
+  "defaultProject": "ang-three-js",
+  "cli": {
+    "analytics": "9a58eae5-196d-4a84-b5c9-45b009c65ce8"
+  }
 }

@@ -1,20 +1,26 @@
-import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ViewChild} from '@angular/core';
 import * as THREE from 'three';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+import { Utils } from './utils';
 
-const renderer = new THREE.WebGLRenderer();
-const camera: THREE.PerspectiveCamera = new THREE.PerspectiveCamera( 30, window.innerWidth / window.innerHeight, 1, 1000 )
-const scene = new THREE.Scene();
-scene.add(new THREE.GridHelper(4, 12, 0x888888, 0x444444));
-const controle = new OrbitControls(camera, renderer.domElement);
-camera.position.set(0, 5, 5);
-camera.lookAt(0, 0, 0);
-renderer.setSize(window.innerWidth, window.innerHeight);
-
-const cube = new THREE.Mesh(new THREE.BoxGeometry(.4, .4, .4), new THREE.MeshBasicMaterial({color: 0x00ff00}));
-cube.position.set(.2, .2, .2)
-scene.add(cube);
+/*RENDER*/
+const renderer = Utils.getRenderer();
 window.addEventListener('resize', onResize);
+
+/*CAMERA*/
+const camera: THREE.PerspectiveCamera = Utils.getCamera();
+
+/*CONTROLs*/
+Utils.InitControls(camera, renderer);
+
+/*SCENE*/
+const scene = Utils.getScene();
+Utils.addGridToScene(scene);
+
+/*LIGHTS*/
+const pointLight1 = Utils.getLightPoint(0xffffff, 1.5, 50, {x: 3, y: 3.5, z: 2.5});
+scene.add(pointLight1);
+const pointLight2 = Utils.getLightPoint(0xffffff, 1, 50, {x: -3, y: -2, z: -2.5});
+scene.add(pointLight2);
 
 export function animate(): any {
   requestAnimationFrame(animate as any as FrameRequestCallback);
@@ -37,6 +43,7 @@ export class AppComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     this.initRenderer();
+    this.addCube();
   }
 
   initRenderer(): void {
@@ -44,5 +51,9 @@ export class AppComponent implements AfterViewInit {
     animate();
   }
 
-
+  private addCube(): void {
+    const cube = new THREE.Mesh(new THREE.BoxGeometry(.4, .4, .4), new THREE.MeshStandardMaterial({metalness: .1, roughness: 0.5}));
+    cube.position.set(.2, .2, .2);
+    scene.add(cube);
+  }
 }

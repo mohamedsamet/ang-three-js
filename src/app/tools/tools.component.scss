@@ -1,0 +1,32 @@
+.tools-container {
+  position: absolute;
+  width: 100%;
+  .plan-container {
+    display: flex;
+    justify-content: center;
+    button {
+      @extend .button-spec;
+    }
+  }
+}
+
+.button-spec {
+  margin: 0 6px;
+  padding: 1px 3px;
+  width: 26px;
+  height: 22px;
+  background-color: transparent;
+  border: solid 1px #404040;
+  border-radius: 50%;
+  box-shadow: 0 0 4px 1px #d8d8d8;
+  &:hover {
+    background-color: aquamarine;
+    border: aquamarine;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  &:focus {
+    outline: transparent;
+  }
+}
+
